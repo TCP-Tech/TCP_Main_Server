@@ -4,7 +4,7 @@ from . import views
 
 #url routing
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('team/', views.teamData),
-    path('team/<str:year>', views.teamDataByYear),
+    path('server/admin/', admin.site.urls),
+    path('server/team/', views.teamData),
+    path('server/team/<str:year>', views.teamDataByYear),
 ]
