@@ -14,7 +14,7 @@ SECRET_KEY = 'django-insecure-k1omc1@kavb88j1e$)$lhzhzuliz36%xi6!h5=1q^e8%q5lq3w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["13.49.223.25","localhost"]
+ALLOWED_HOSTS = ["13.49.223.25","localhost","127.0.0.1"]
 CORS_ALLOWED_ORIGINS = ["http://13.49.223.25"]
 CSRF_TRUSTED_ORIGINS = ["http://13.49.223.25"]
 
@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Team',
+    'Events.apps.EventsConfig',
     'corsheaders',
     'rest_framework',
 ]
