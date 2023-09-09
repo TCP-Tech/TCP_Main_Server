@@ -7,7 +7,7 @@ class ProblemStatement(models.Model):
     year = models.CharField(max_length=5)
     title = models.CharField(max_length=50)
     domain = models.CharField(max_length=50)
-    img = models.ImageField(upload_to="media/", null = True, blank=True)
+    img = models.ImageField(upload_to="problemStatements/", null = True, blank=True)
     statement = models.TextField(max_length=2000, blank=True)
     
 
