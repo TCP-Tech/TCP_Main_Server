@@ -13,10 +13,10 @@ def speakerDataByYear(request, year):
     res_data = SpeakerSerializer(speakers, many = True, context={'request': request}).data
 
     if len(speakers):
-        res_message = "speakers Data Fetched successfully."
+        res_message = "Speakers Data Fetched successfully."
         res_status = status.HTTP_200_OK
     else:
-        res_message = "speakers Data couldn't be fetched"
+        res_message = "Speakers Data couldn't be fetched"
         res_status = status.HTTP_404_NOT_FOUND
     
     return Response({
@@ -31,10 +31,10 @@ def speakerData(request):
     res_data = SpeakerSerializer(speakers, many = True, context={'request': request}).data
 
     if len(speakers):
-        res_message = "speakers Data Fetched successfully."
+        res_message = "Speakers Data Fetched successfully."
         res_status = status.HTTP_200_OK
     else:
-        res_message = "speakers Data couldn't be fetched"
+        res_message = "Speakers Data couldn't be fetched"
         res_status = status.HTTP_404_NOT_FOUND
     
     return Response({
