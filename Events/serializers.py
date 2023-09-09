@@ -3,9 +3,14 @@ from .models import Event
 
 #Serializer for Events
 class EventSerializer(serializers.ModelSerializer):
-    img_url = serializers.SerializerMethodField('get_image_url')
+
+    # img_url = serializers.SerializerMethodField('get_image_url')
+
     class Meta:
         model = Event
-        fields = ['year','title','date','img','description','instaLink','img_url']
-    def get_image_url(self, obj):
-        return obj.img.url
+        fields = '__all__'
+    # def get_image_url(self, obj):
+    #     request = self.context
+    #     return request
+        # return request.build_absolute_uri(obj.img.url)
+
