@@ -8,4 +8,6 @@ urlpatterns = [
     path('server/team/', views.teamData),
     path('server/team/<str:year>', views.teamDataByYear),
     path('', include('Events.urls')),
+    path('', include('Speakers.urls')),
+    path('', include('ProblemStatements.urls')),
 ]
