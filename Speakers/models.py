@@ -7,7 +7,7 @@ class Speaker(models.Model):
     year = models.CharField(max_length=5)
     name = models.CharField(max_length=50)
     position = models.CharField(max_length=50)
-    img = models.ImageField(upload_to="media/", null = True, blank=True)
+    img = models.ImageField(upload_to="speakers/", null = True, blank=True)
     description = models.TextField(max_length=2000, blank=True)
     facebook = models.CharField(max_length=100, blank=True)
     twitter = models.CharField(max_length=100, blank=True)
