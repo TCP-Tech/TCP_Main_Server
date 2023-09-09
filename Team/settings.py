@@ -21,9 +21,6 @@ CSRF_TRUSTED_ORIGINS = ["http://13.49.223.25","http://localhost:3000"]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'/media/')
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
-
 # Application definition
 
 INSTALLED_APPS = [
