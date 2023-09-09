@@ -30,6 +30,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Team',
     'Events.apps.EventsConfig',
+    'Speakers.apps.SpeakersConfig',
+    'ProblemStatements.apps.ProblemstatementsConfig',
     'corsheaders',
     'rest_framework',
 ]
