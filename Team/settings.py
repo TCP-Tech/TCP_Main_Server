@@ -14,9 +14,9 @@ SECRET_KEY = 'django-insecure-k1omc1@kavb88j1e$)$lhzhzuliz36%xi6!h5=1q^e8%q5lq3w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["13.49.223.25","localhost","127.0.0.1","codeutsava.nitrr.ac.in"]
-CORS_ALLOWED_ORIGINS = ["http://13.49.223.25","http://localhost:3000","https://codeutsava.nitrr.ac.in","http://codeutsava.nitrr.ac.in"]
-CSRF_TRUSTED_ORIGINS = ["http://13.49.223.25","http://localhost:3000","https://codeutsava.nitrr.ac.in","http://codeutsava.nitrr.ac.in"]
+ALLOWED_HOSTS = ["13.49.223.25","16.171.64.245","localhost","127.0.0.1","codeutsava.nitrr.ac.in"]
+CORS_ALLOWED_ORIGINS = ["http://13.49.223.25","https://16.171.64.245","http://localhost:3000","https://codeutsava.nitrr.ac.in","http://codeutsava.nitrr.ac.in"]
+CSRF_TRUSTED_ORIGINS = ["http://13.49.223.25","https://16.171.64.245"",http://localhost:3000","https://codeutsava.nitrr.ac.in","http://codeutsava.nitrr.ac.in"]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'/media/')
