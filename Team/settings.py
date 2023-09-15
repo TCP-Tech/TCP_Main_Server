@@ -19,7 +19,7 @@ CORS_ALLOWED_ORIGINS = ["http://13.49.223.25","https://16.171.64.245","http://lo
 CSRF_TRUSTED_ORIGINS = ["http://13.49.223.25","https://16.171.64.245"",http://localhost:3000","https://codeutsava.nitrr.ac.in","http://codeutsava.nitrr.ac.in"]
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR,'/media/')
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
 # Application definition
 
