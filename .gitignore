@@ -4,3 +4,8 @@
 /ProblemStatements/migrations
 /dev-env
 /static
+/Team/__pycache__
+/Events/__pycache__
+/Speakers/__pycache__
+/ProblemStatements/__pycache__
+/server/__pycache__
