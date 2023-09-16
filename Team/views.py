@@ -17,4 +17,3 @@ def teamDataByYear(request, year):
     teammembers = TeamData.objects.all().filter(year = year)
     rtr = TeamDataSerializer(teammembers, many = True)
     return Response(rtr.data)
-
