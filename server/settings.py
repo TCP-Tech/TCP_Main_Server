@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'Speakers.apps.SpeakersConfig',
     'ProblemStatements.apps.ProblemstatementsConfig',
     'Team.apps.TeamConfig',
+    'Counter.apps.CounterConfig',
     'corsheaders',
     'rest_framework',
 ]

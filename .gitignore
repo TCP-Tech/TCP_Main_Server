@@ -2,6 +2,7 @@
 /Events/migrations
 /Speakers/migrations
 /ProblemStatements/migrations
+/Counter/migrations
 /dev-env
 /static
 /Team/__pycache__
