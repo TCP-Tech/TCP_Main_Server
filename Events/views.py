@@ -11,7 +11,7 @@ from rest_framework.response import Response
 def eventDataByYear(request, year):
     events = Event.objects.all().filter(year = year)
     res_data = EventSerializer(events, many = True, context={'request': request}).data
-
+ 
     if len(events):
         res_message = "Events Data Fetched successfully."
         res_status = status.HTTP_200_OK
