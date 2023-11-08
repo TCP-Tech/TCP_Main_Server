@@ -3,6 +3,10 @@
 /Speakers/migrations
 /ProblemStatements/migrations
 /Counter/migrations
+/Sponsors/migrations
+/ShortlistedTeams/migrations
+/Winners/migrations
+/Glimpses/migrations
 /dev-env
 /static
 /Team/__pycache__
