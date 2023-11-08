@@ -11,6 +11,3 @@ class Event(models.Model):
     description = models.TextField(max_length=2000, blank=True)
     instaLink = models.CharField(max_length=100, blank=True)
 
-    # @property
-    # def image_url(self):
-    #     return config('HOST')+self.img.url    
