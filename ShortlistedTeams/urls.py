@@ -3,6 +3,6 @@ from . import views
 
 #url routing
 urlpatterns = [
-    path('server/shotlistedTeams/<str:year>', views.ShortlistedTeamData),
-    path('server/shotlistedTeams/', views.ShortlistedTeamDataByYear),
+    path('server/shortlistedTeams/<str:year>', views.ShortlistedTeamDataByYear),
+    path('server/shortlistedTeams/', views.ShortlistedTeamData),
 ]
