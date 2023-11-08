@@ -36,6 +36,10 @@ INSTALLED_APPS = [
     'ProblemStatements.apps.ProblemstatementsConfig',
     'Team.apps.TeamConfig',
     'Counter.apps.CounterConfig',
+    'Glimpses.apps.GlimpsesConfig',
+    'ShortlistedTeams.apps.ShortlistedteamsConfig',
+    'Sponsors.apps.SponsorsConfig',
+    'Winners.apps.WinnersConfig',
     'corsheaders',
     'rest_framework',
 ]
