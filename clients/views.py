@@ -4,22 +4,22 @@ from rest_framework import status
 from django.contrib.auth import authenticate, login, logout
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+import json
 
 #view to get overall team data
 @api_view(['POST'])
 def mentorLogin(request):
-    username = request.POST.get('username')
-    password = request.POST.get('password')
-
+    data = json.loads(request.body.decode("utf-8"))
+    username = data['username']
+    password = data['password']
+    print(username, password)
     try:
         user = Mentor.objects.get(username = username)
-        
         if user.password != password:
             res_message = "Invalid Password"
             res_status = status.HTTP_403_FORBIDDEN
         
         else:
-            login(request, user)
             res_message = "Valid User"
             res_status = status.HTTP_200_OK
 
