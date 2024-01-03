@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'Speakers.apps.SpeakersConfig',
     'ProblemStatements.apps.ProblemstatementsConfig',
     'Team.apps.TeamConfig',
+    'clients.apps.ClientsConfig',
     'Counter.apps.CounterConfig',
     'Glimpses.apps.GlimpsesConfig',
     'ShortlistedTeams.apps.ShortlistedteamsConfig',
