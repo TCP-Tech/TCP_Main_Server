@@ -29,7 +29,8 @@ def mentorLogin(request):
     
 
     return Response({
-        "message": res_message,
+        "status_message": res_message,
+        "status_code": res_status,
     }, status=res_status)
     
 @api_view(['POST'])
