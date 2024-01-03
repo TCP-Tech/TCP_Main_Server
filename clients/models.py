@@ -20,7 +20,7 @@ Branches = (
     ("12" , "MCA"),
 )
 
-class Mentor:
+class Mentor(models.Model):
     name = models.CharField(max_length=200, null=False)
     username = models.CharField(max_length=200,null=False,unique=True)
     password = models.CharField(max_length=200)
