@@ -36,5 +36,3 @@ class Mentor(models.Model):
     score = models.BigIntegerField(default=0)
     total_q = models.BigIntegerField(default=0)
     
-    def __str__(self):
-        return self.username
