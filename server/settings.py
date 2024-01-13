@@ -15,8 +15,8 @@ SECRET_KEY = 'django-insecure-m$m@qgi+4xdaf!j6&=dpfd+kka%up5m)_r2bwxs3!aib-yuer0
 DEBUG = True
 
 ALLOWED_HOSTS = ["13.49.223.25","16.171.64.245","localhost","127.0.0.1","codeutsava.nitrr.ac.in"]
-CORS_ALLOWED_ORIGINS = ["http://13.49.223.25","https://16.171.64.245","http://localhost:5173","http://localhost:3000","https://codeutsava.nitrr.ac.in","http://codeutsava.nitrr.ac.in"]
-CSRF_TRUSTED_ORIGINS = ["http://13.49.223.25","https://16.171.64.245","http://localhost:5173","http://localhost:3000","https://codeutsava.nitrr.ac.in","http://codeutsava.nitrr.ac.in"]
+CORS_ALLOWED_ORIGINS = ["http://13.49.223.25","https://16.171.64.245","http://localhost:5173","http://localhost:3000","https://codeutsava.nitrr.ac.in","http://codeutsava.nitrr.ac.in","https://tcpmentorship.netlify.app"]
+CSRF_TRUSTED_ORIGINS = ["http://13.49.223.25","https://16.171.64.245","http://localhost:5173","http://localhost:3000","https://codeutsava.nitrr.ac.in","http://codeutsava.nitrr.ac.in", "https://tcpmentorship.netlify.app"]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'./')
