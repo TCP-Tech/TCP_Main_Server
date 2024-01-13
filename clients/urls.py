@@ -2,5 +2,10 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('server/login', views.mentorLogin),
+    path('server/mentor_login', views.mentorLogin),
+    path('server/mentee_login', views.menteeLogin),
+    path('server/mentee_signup', views.menteeRegister),
+    path('server/get-team-mentor/<id>', views.get_team_mentor),
+    path('server/get-team-mentee/<id>', views.get_team_mentee),
+    
 ]
