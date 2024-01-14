@@ -57,6 +57,7 @@ class Mentee(models.Model):
     linkedinID = models.URLField(max_length=100)
     score = models.BigIntegerField(default=0)
     total_q = models.BigIntegerField(default=0)
+    mentor_id = models.IntegerField(default = 0, null=True)
     
     def get_team(self):
         teams =  Team.objects.filter(team_members=self)
@@ -73,6 +74,7 @@ class Team(models.Model):
     alloted_mentor = models.ForeignKey(Mentor, on_delete=models.SET_NULL, null=True, blank=True)
     team_members = models.ManyToManyField(Mentee)
     team_score      = models.IntegerField(default=0)
+    
     
     def __str__(self):
         return self.team_name    

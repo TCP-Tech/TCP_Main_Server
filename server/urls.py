@@ -17,6 +17,8 @@ urlpatterns = [
     path('', include('Sponsors.urls')),
     path('', include('Winners.urls')),
     path('', include('clients.urls')),
+    path('', include('Questions.urls'))
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

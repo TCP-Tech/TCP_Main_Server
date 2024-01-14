@@ -22,3 +22,5 @@ venv/
 /Counter/__pycache__
 /clients/__pycache__
 /clients/migrations
+/Questions/__pycache__
+/Questions/migrations
