@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'ShortlistedTeams.apps.ShortlistedteamsConfig',
     'Sponsors.apps.SponsorsConfig',
     'Winners.apps.WinnersConfig',
+    'Questions.apps.QuestionsConfig',
     'corsheaders',
     'rest_framework',
 ]
