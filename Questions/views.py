@@ -115,7 +115,7 @@ def Onsubmit(request):
         question.Qstatus=True
         question.SubmittedAt=timezone.now()
         question.save()
-        res_msg="question successfullty submited"
+        res_msg="question successfully submitted"
         res_status = status.HTTP_200_OK
 
     else:

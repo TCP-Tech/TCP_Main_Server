@@ -21,6 +21,7 @@ Branches = (
 )
 
 class Mentor(models.Model):
+    image=models.URLField(max_length=300,null=True,blank=True,default="https://avatars.githubusercontent.com/u/5783068?v=4")
     name = models.CharField(max_length=200, null=False)
     username = models.CharField(max_length=200,null=False,unique=True)
     password = models.CharField(max_length=200)
@@ -43,6 +44,7 @@ class Mentor(models.Model):
     def __str__(self):
         return self.username
 class Mentee(models.Model):
+    image=models.URLField(max_length=300,null=True,blank=True,default="https://avatars.githubusercontent.com/u/5783068?v=4")
     name = models.CharField(max_length=200, null=False)
     username = models.CharField(max_length=200,null=False,unique=True)
     password = models.CharField(max_length=200)

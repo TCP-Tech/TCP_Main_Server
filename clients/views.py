@@ -82,9 +82,8 @@ def menteeLogin(request):
     
 @api_view(['POST'])
 def menteeRegister(request):
-    req = json.loads(request.body.decode("utf-8"))
     try:
-        data = req.data
+        data = request.data
         serializer = MenteeSerializer(data=data)
         
         if serializer.is_valid():
@@ -98,7 +97,7 @@ def menteeRegister(request):
                     "status_code": res_status,
                 }, status=res_status)
         else:
-            res_message = "User Not Found"
+            res_message = "Mentee couldn't be created"
             res_status = status.HTTP_403_FORBIDDEN
     
             return Response(
@@ -109,7 +108,7 @@ def menteeRegister(request):
                 }, status=res_status)
             
     except Exception as e:
-        res_message = "User Not Found"
+        res_message = "Mentee couldn't be created"
         res_status = status.HTTP_403_FORBIDDEN
         return Response(
             {
@@ -122,6 +121,102 @@ def menteeRegister(request):
 @api_view(['POST'])
 def menteeLogout(request):
     logout(request)
+    
+@api_view(['POST'])
+def updateMentorProfile(request):
+    try:
+        req = json.loads(request.body.decode("utf-8"))
+        username = req['username']
+        password = req['password']
+        mentor = Mentor.objects.get(username = request.data['username'])
+        serializer = MentorUpdateSerializer(mentor,data=request.data, partial=True)
+        if serializer.is_valid() and password == mentor.password:
+            serializer.save()
+            res_message = "Profile updated"
+            res_status = status.HTTP_200_OK
+            return Response(
+                {
+                    "user_data": serializer.data,
+                    "status_message": res_message,
+                    "status_code": res_status,
+                }, status=res_status)
+        elif password != mentor.password:
+            res_message = "Invalid Password"
+            res_status = status.HTTP_403_FORBIDDEN
+            return Response(
+                {
+                    "user_data": serializer.errors,
+                    "status_message": res_message,
+                    "status_code": res_status,
+                }, status=res_status)
+        else:
+            res_message = "Profile couldn't be updated"
+            res_status = status.HTTP_400_BAD_REQUEST
+    
+            return Response(
+                {
+                    "user_data": serializer.errors,
+                    "status_message": res_message,
+                    "status_code": res_status,
+                }, status=res_status)
+            
+    except Exception as e:
+        res_message = "Internal Server Error"
+        res_status = status.HTTP_500_INTERNAL_SERVER_ERROR
+        return Response(
+            {
+                "status_message": res_message,
+                "status_code": res_status,
+            }, status=res_status
+        )
+
+@api_view(['POST'])
+def updateMenteeProfile(request):
+    try:
+        req = json.loads(request.body.decode("utf-8"))
+        username = req['username']
+        password = req['password']
+        mentee = Mentee.objects.get(username = request.data['username'])
+        serializer = MenteeUpdateSerializer(mentee,data=request.data, partial=True)
+        if serializer.is_valid() and password == mentee.password:
+            serializer.save()
+            res_message = "Profile updated"
+            res_status = status.HTTP_200_OK
+            return Response(
+                {
+                    "user_data": serializer.data,
+                    "status_message": res_message,
+                    "status_code": res_status,
+                }, status=res_status)
+        elif password != mentee.password:
+            res_message = "Invalid Password"
+            res_status = status.HTTP_403_FORBIDDEN
+            return Response(
+                {
+                    "user_data": serializer.errors,
+                    "status_message": res_message,
+                    "status_code": res_status,
+                }, status=res_status)
+        else:
+            res_message = "Profile couldn't be updated"
+            res_status = status.HTTP_400_BAD_REQUEST
+    
+            return Response(
+                {
+                    "user_data": serializer.errors,
+                    "status_message": res_message,
+                    "status_code": res_status,
+                }, status=res_status)
+            
+    except Exception as e:
+        res_message = "Internal Server Error"
+        res_status = status.HTTP_500_INTERNAL_SERVER_ERROR
+        return Response(
+            {
+                "status_message": res_message,
+                "status_code": res_status,
+            }, status=res_status
+        )
     
 @api_view(['GET'])
 def get_team_mentor(request,id):
