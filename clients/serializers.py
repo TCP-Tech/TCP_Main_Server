@@ -17,11 +17,11 @@ class MenteeSerializer(serializers.ModelSerializer):
 class MenteeUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Mentee
-        fields = ['image', 'name', 'phone_number','email', 'branch', 'semester', 'codechefID', 'codeforcesID', 'leetcodeID', 'gfgID', 'hackerrankID', 'linkedinID']
+        fields = ['image', 'name', 'phone_number','username', 'password', 'branch', 'semester', 'codechefID', 'codeforcesID', 'leetcodeID', 'gfgID', 'hackerrankID', 'linkedinID']
 class MentorUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Mentor
-        fields = ['image', 'name', 'phone_number','email', 'branch', 'semester', 'codechefID', 'codeforcesID', 'leetcodeID', 'gfgID', 'hackerrankID', 'linkedinID']
+        fields = ['image', 'name', 'phone_number','username', 'password', 'branch', 'semester', 'codechefID', 'codeforcesID', 'leetcodeID', 'gfgID', 'hackerrankID', 'linkedinID']
 
 class TeamSerializer(serializers.ModelSerializer):
     class Meta:

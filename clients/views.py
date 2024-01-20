@@ -126,26 +126,15 @@ def menteeLogout(request):
 def updateMentorProfile(request):
     try:
         req = json.loads(request.body.decode("utf-8"))
-        username = req['username']
-        password = req['password']
-        mentor = Mentor.objects.get(username = request.data['username'])
+        mentor = Mentor.objects.get(email = request.data['email'])
         serializer = MentorUpdateSerializer(mentor,data=request.data, partial=True)
-        if serializer.is_valid() and password == mentor.password:
+        if serializer.is_valid():
             serializer.save()
             res_message = "Profile updated"
             res_status = status.HTTP_200_OK
             return Response(
                 {
                     "user_data": serializer.data,
-                    "status_message": res_message,
-                    "status_code": res_status,
-                }, status=res_status)
-        elif password != mentor.password:
-            res_message = "Invalid Password"
-            res_status = status.HTTP_403_FORBIDDEN
-            return Response(
-                {
-                    "user_data": serializer.errors,
                     "status_message": res_message,
                     "status_code": res_status,
                 }, status=res_status)
@@ -174,26 +163,15 @@ def updateMentorProfile(request):
 def updateMenteeProfile(request):
     try:
         req = json.loads(request.body.decode("utf-8"))
-        username = req['username']
-        password = req['password']
-        mentee = Mentee.objects.get(username = request.data['username'])
+        mentee = Mentee.objects.get(email = request.data['email'])
         serializer = MenteeUpdateSerializer(mentee,data=request.data, partial=True)
-        if serializer.is_valid() and password == mentee.password:
+        if serializer.is_valid():
             serializer.save()
             res_message = "Profile updated"
             res_status = status.HTTP_200_OK
             return Response(
                 {
                     "user_data": serializer.data,
-                    "status_message": res_message,
-                    "status_code": res_status,
-                }, status=res_status)
-        elif password != mentee.password:
-            res_message = "Invalid Password"
-            res_status = status.HTTP_403_FORBIDDEN
-            return Response(
-                {
-                    "user_data": serializer.errors,
                     "status_message": res_message,
                     "status_code": res_status,
                 }, status=res_status)
