@@ -12,11 +12,11 @@ import json
 @api_view(['POST'])
 def mentorLogin(request):
     req = json.loads(request.body.decode("utf-8"))
-    username = req['username']
+    email = req['email']
     password = req['password']
     data = {}
     try:
-        user = Mentor.objects.get(username = username)
+        user = Mentor.objects.get(email = email)
         if user.password != password:
             res_message = "Invalid Password"
             res_status = status.HTTP_403_FORBIDDEN
@@ -50,11 +50,11 @@ def mentorLogout(request):
 @api_view(['POST'])
 def menteeLogin(request):
     req = json.loads(request.body.decode("utf-8"))
-    username = req['username']
+    email = req['email']
     password = req['password']
     data = {}
     try:
-        user = Mentee.objects.get(username = username)
+        user = Mentee.objects.get(email = email)
         if user.password != password:
             res_message = "Invalid Password"
             res_status = status.HTTP_403_FORBIDDEN
@@ -290,3 +290,20 @@ def get_team_mentee(request,id):
                     "status_code": res_status,
                 }, status=res_status
         )
+@api_view(['GET'])
+def Getteams(request):
+    
+    Teams = Team.objects.all()
+    res_data = TeamSerializer(Teams, many = True, context={'request': request}).data
+ 
+    if len(Teams):
+        res_message = "Teams Data Fetched successfully."
+        res_status = status.HTTP_200_OK
+    else:
+        res_message = "Teams Does not exist in DB"
+        res_status = status.HTTP_404_NOT_FOUND
+    
+    return Response({
+        "message": res_message,
+        "data": res_data
+    }, status=res_status)

@@ -33,6 +33,7 @@ class Question(models.Model):
     Qname = models.CharField(max_length=200, null=False)
     topic = models.CharField(max_length=200)
     Level = models.CharField(max_length=200)
+    description= models.CharField(max_length=300,blank=True,null=True)
     codeforcesLink =models.URLField(max_length=100,blank=True)
     codechefLink =models.URLField(max_length=100,blank=True)
     leetcodeLink =models.URLField(max_length=100,blank=True)

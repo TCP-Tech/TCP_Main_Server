@@ -106,7 +106,11 @@ def getScore(allotedTime,submittedtime):
             return 5
     else:
         return 5
-
+#functions to calculate time difference
+def getTimediff(allotedTime,submittedtime):
+    allotedhour=allotedTime.hour 
+    submithour=submittedtime.hour
+    return submithour-allotedhour
     
     
 
@@ -132,16 +136,18 @@ def Onsubmit(request):
         mentor=Mentor.objects.get(id=mentorId)
         mentee=Mentee.objects.get(id=menteeId)
         team=Team.objects.get(team_members=mentee)
-    
+        timediff=getTimediff(question.allotedTime,question.SubmittedAt)
         score=getScore(question.allotedTime,question.SubmittedAt)
         mentor.score+=score
         mentee.score+=score
+        mentee.cumHour_diff+=timediff
         mentee.solvedQ+=1
         mentee.Qlevel_count[level]=mentee.Qlevel_count.get(level,0) + 1
         for topic in topics:
             mentee.topic_count[topic]=mentee.topic_count.get(topic,0) + 1
 
         team.team_score+=score
+        team.cumHour_diff+=timediff
         team.save()
         mentor.save()
         mentee.save()

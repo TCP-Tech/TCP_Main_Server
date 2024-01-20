@@ -39,9 +39,9 @@ DSA_q= {'Array': '0',
 class Mentor(models.Model):
 
     name = models.CharField(max_length=200, null=False)
+    email=models.EmailField(null=False,unique=True)
     username = models.CharField(max_length=200,null=False,unique=True)
     password = models.CharField(max_length=200)
-    email=models.EmailField(null=True,blank=True)
     branch = models.CharField(max_length=10,choices=Branches)
     semester = models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(8)])
     phone_number = models.CharField(max_length=10,unique=True)
@@ -66,10 +66,10 @@ class Mentor(models.Model):
 class Mentee(models.Model):
     mentor_id = models.IntegerField(default = 0, null=True)
     name = models.CharField(max_length=200, null=False)
+    email=models.EmailField(null=False,unique=True)
     username = models.CharField(max_length=200,null=False,unique=True)
     password = models.CharField(max_length=200)
     branch = models.CharField(max_length=10)
-    email=models.EmailField(null=False,unique=True)
     semester = models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(8)])
     phone_number = models.CharField(max_length=10,unique=True)
     image=models.URLField(max_length=300,null=True,blank=True,default="https://avatars.githubusercontent.com/u/5783068?v=4")
@@ -84,6 +84,7 @@ class Mentee(models.Model):
     total_q = models.BigIntegerField(default=0)
     solvedQ = models.BigIntegerField(default=0)
     Qlevel_count=models.JSONField(default=dict,null=True,blank=True)
+    cumHour_diff=models.BigIntegerField(default=0)
 
     
     
@@ -102,6 +103,7 @@ class Team(models.Model):
     alloted_mentor = models.ForeignKey(Mentor, on_delete=models.SET_NULL, null=True, blank=True)
     team_members = models.ManyToManyField(Mentee)
     team_score      = models.IntegerField(default=0)
+    cumHour_diff=models.BigIntegerField(default=0)
     
     
     def __str__(self):
