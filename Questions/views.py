@@ -15,6 +15,11 @@ def QuestionRegister(request):
     
     # try:
         data = request.data
+        level=data.get('Level')
+        topicss=data.get('topic')
+        topics=topicss.split(" ")
+
+        print(level)
         serializer = QuestionSerializer(data=data)
 
         if serializer.is_valid():
@@ -25,7 +30,10 @@ def QuestionRegister(request):
             for mentee in mentees:
                 mentee.total_q+=1
                 mentee.save()
-
+            
+            mentor.Qlevel_count[level]=mentor.Qlevel_count.get(level,0) + 1
+            for topic in topics:
+                mentor.topic_count[topic]=mentor.topic_count.get(topic,0) + 1
             mentor.total_q+=1
             mentor.save()
             team=Team.objects.get(alloted_mentor=mentor)
@@ -69,7 +77,7 @@ def GetQuestion(request):
         res_message = "questions Data Fetched successfully."
         res_status = status.HTTP_200_OK
     else:
-        res_message = "questions Data couldn't be fetched"
+        res_message = "questions Does not exist in DB"
         res_status = status.HTTP_404_NOT_FOUND
     
     return Response({
@@ -105,37 +113,49 @@ def getScore(allotedTime,submittedtime):
 @api_view(['POSt'])
 def Onsubmit(request):
     data=request.data
+    
     menteeId=data.get("menteeId")
     qId=data.get("qId")
 
 
     question=Question.objects.get(id=qId)
+    level=question.Level
+    topicss=question.topic
+    topics=topicss.split(" ")
+    
 
-    if question:
+    if question and question.Qstatus==False:
         question.Qstatus=True
         question.SubmittedAt=timezone.now()
-        question.save()
+        question.save() 
+        mentorId=question.mentorId
+        mentor=Mentor.objects.get(id=mentorId)
+        mentee=Mentee.objects.get(id=menteeId)
+        team=Team.objects.get(team_members=mentee)
+    
+        score=getScore(question.allotedTime,question.SubmittedAt)
+        mentor.score+=score
+        mentee.score+=score
+        mentee.solvedQ+=1
+        mentee.Qlevel_count[level]=mentee.Qlevel_count.get(level,0) + 1
+        for topic in topics:
+            mentee.topic_count[topic]=mentee.topic_count.get(topic,0) + 1
+
+        team.team_score+=score
+        team.save()
+        mentor.save()
+        mentee.save()
         res_msg="question successfully submitted"
         res_status = status.HTTP_200_OK
+    
+    elif question.Qstatus==True:
+        res_msg="Question already submited"
+        res_status = status.HTTP_403_FORBIDDEN
 
-    else:
-        res_message = "questions does not exist"
+    else :
+        res_msg = "questions does not exist"
         res_status = status.HTTP_404_NOT_FOUND
 
-    mentorId=question.mentorId
-    mentor=Mentor.objects.get(id=mentorId)
-    mentee=Mentee.objects.get(id=menteeId)
-    team=Team.objects.get(team_members=mentee)
-    
-    score=getScore(question.allotedTime,question.SubmittedAt)
-    mentor.score+=score
-    mentee.score+=score
-    team.team_score+=score
-    team.save()
-    mentor.save()
-    mentee.save()
-
-    
     return Response({
         "message": res_msg
     }, status=res_status)
