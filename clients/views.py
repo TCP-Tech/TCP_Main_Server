@@ -201,30 +201,19 @@ def get_team_mentor(request,id):
     try:
         mentor = Mentor.objects.get(id=id)
         if mentor:
-            team_data = mentor.allotted_teams()
-            data = {}
-            k=0
-            for team in team_data:
-                
-                mentee_ids = team.team_members.values_list('id', flat=True)
-                mentees = Mentee.objects.filter(id__in=mentee_ids)
-                menteeSerializer = MenteeSerializer(mentees, many=True)
-                data[k]=menteeSerializer.data
-                k+=1
-            
+            team_data = mentor.allotted_teams()            
             serializer = TeamSerializer(team_data, many=True)
             res_message = "Valid user"
             res_status = status.HTTP_200_OK
             return Response(
                     {
                             "team_data": serializer.data,
-                            "mentee_data" : data,
                             "status_message": res_message,
                             "status_code": res_status,
                         }, status=res_status
                 )
         else:
-            res_message = "User  Not Found"
+            res_message = "Mentor Not Found"
             res_status = status.HTTP_403_FORBIDDEN
     
             return Response(
@@ -251,20 +240,15 @@ def get_team_mentee(request,id):
         mentee = Mentee.objects.get(id=id)
         if mentee:
             team_data = mentee.get_team()
-            mentee_ids = team_data[0].team_members.values_list('id', flat=True)
             mentor = team_data[0].alloted_mentor
             mentorSerializer = MentorSerializer(mentor)
-            mentees = Mentee.objects.filter(id__in=mentee_ids)
-            serializer = MenteeSerializer(mentees, many=True)
             teamSerializer=TeamSerializer(team_data, many=True)
-
             res_message = "Valid user"
             res_status = status.HTTP_200_OK
             return Response(
                     {
                             "team_data":teamSerializer.data,
                             "mentor_data":mentorSerializer.data,
-                            "mentee_data":serializer.data,
                             "status_message": res_message,
                             "status_code": res_status,
                         }, status=res_status
