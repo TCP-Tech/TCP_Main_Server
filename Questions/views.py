@@ -67,9 +67,8 @@ def QuestionRegister(request):
     #     )
 
 @api_view(['GET'])
-def GetQuestion(request):
-    data=request.data
-    mentorId=data.get("mentorId")
+def GetQuestion(request,mentorId):
+    
     question = Question.objects.all().filter(mentorId = mentorId)
     res_data = QuestionSerializer(question, many = True, context={'request': request}).data
  

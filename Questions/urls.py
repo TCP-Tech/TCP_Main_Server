@@ -3,6 +3,6 @@ from . import views
 
 urlpatterns = [
     path('server/addQuestion', views.QuestionRegister),
-    path('server/getQuestions', views.GetQuestion),
+    path('server/getQuestions/<mentorId>', views.GetQuestion),
     path('server/submitQuestion', views.Onsubmit)
 ]
