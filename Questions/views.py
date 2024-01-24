@@ -89,35 +89,26 @@ def GetQuestion(request,mentorId):
 #function to calculate score
 
 def getScore(allotedTime,submittedtime):
-    allotedhour=allotedTime.hour 
-    submithour=submittedtime.hour
-    allotedday=allotedTime.day
-    submitday=submittedtime.day
+    time_difference = submittedtime - allotedTime
+    hours_difference = time_difference.total_seconds() // 3600
+    days_difference = time_difference.days
 
-    hour_difference=(allotedhour -submithour)
-    day_difference=(allotedday-submitday)
-    if day_difference==0:
-        if hour_difference<6:
+    if days_difference == 0:
+        if hours_difference < 6:
             return 20
-        elif hour_difference>6 and hour_difference<12:
+        elif 6 <= hours_difference < 12:
             return 15
-        elif hour_difference>12 and hour_difference<18 :
+        elif 12 <= hours_difference < 18:
             return 10
         else:
             return 5
     else:
         return 5
+    
 #functions to calculate time difference
 def getTimediff(allotedTime,submittedtime):
-    allotedhour=allotedTime.hour 
-    submithour=submittedtime.hour
-    allotedday=allotedTime.day
-    submitday=submittedtime.day
-    day_difference=(allotedday-submitday)
-    if day_difference==0:
-        return submithour-allotedhour
-    else :
-        return day_difference*24 + abs(submithour-allotedhour)
+    time_difference = submittedtime - allotedTime
+    return time_difference.total_seconds() // 3600
 
 
 @api_view(['POST'])
