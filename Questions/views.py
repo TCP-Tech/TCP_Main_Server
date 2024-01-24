@@ -80,8 +80,10 @@ def GetQuestion(request,mentorId):
         res_status = status.HTTP_404_NOT_FOUND
     
     return Response({
+        
+        "data": res_data,
         "message": res_message,
-        "data": res_data
+        "status_code": res_status
     }, status=res_status)
 
 #function to calculate score
@@ -109,11 +111,16 @@ def getScore(allotedTime,submittedtime):
 def getTimediff(allotedTime,submittedtime):
     allotedhour=allotedTime.hour 
     submithour=submittedtime.hour
-    return submithour-allotedhour
-    
-    
+    allotedday=allotedTime.day
+    submitday=submittedtime.day
+    day_difference=(allotedday-submitday)
+    if day_difference==0:
+        return submithour-allotedhour
+    else :
+        return day_difference*24 + abs(submithour-allotedhour)
 
-@api_view(['POSt'])
+
+@api_view(['POST'])
 def Onsubmit(request):
     data=request.data
     
@@ -125,11 +132,22 @@ def Onsubmit(request):
     level=question.Level
     topicss=question.topic
     topics=topicss.split(" ")
+
     
 
-    if question and question.Qstatus==False:
+    menteesubmission=False
+    
+    if question.submittedmenteeId:
+        submittedMenteeIds= question.get_values_as_list()
+        if menteeId in submittedMenteeIds:
+            menteesubmission=True
+       
+    
+
+    if question and not menteesubmission:
         question.Qstatus=True
         question.SubmittedAt=timezone.now()
+        question.add_value(menteeId)
         question.save() 
         mentorId=question.mentorId
         mentor=Mentor.objects.get(id=mentorId)
@@ -139,29 +157,30 @@ def Onsubmit(request):
         score=getScore(question.allotedTime,question.SubmittedAt)
         mentor.score+=score
         mentee.score+=score
-        mentee.cumHour_diff+=timediff
+        print(timediff)
+        mentee.cumHour_diff += timediff
         mentee.solvedQ+=1
         mentee.Qlevel_count[level]=mentee.Qlevel_count.get(level,0) + 1
         for topic in topics:
             mentee.topic_count[topic]=mentee.topic_count.get(topic,0) + 1
 
         team.team_score+=score
-        team.cumHour_diff+=timediff
+        team.cumHour_diff += timediff
         team.save()
         mentor.save()
         mentee.save()
         res_msg="question successfully submitted"
         res_status = status.HTTP_200_OK
     
-    elif question.Qstatus==True:
-        res_msg="Question already submited"
+    elif menteesubmission:
+        res_msg = "questions already submitted"
         res_status = status.HTTP_403_FORBIDDEN
-
     else :
         res_msg = "questions does not exist"
         res_status = status.HTTP_404_NOT_FOUND
 
     return Response({
-        "message": res_msg
+        "message": res_msg,
+        "status_code": res_status
     }, status=res_status)
 

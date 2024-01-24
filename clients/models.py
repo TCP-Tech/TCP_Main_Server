@@ -40,7 +40,6 @@ class Mentor(models.Model):
 
     name = models.CharField(max_length=200, null=False)
     email=models.EmailField(null=False,unique=True)
-    username = models.CharField(max_length=200,null=False,unique=True)
     password = models.CharField(max_length=200)
     branch = models.CharField(max_length=10,choices=Branches)
     semester = models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(8)])
@@ -62,7 +61,7 @@ class Mentor(models.Model):
         return teams
     
     def __str__(self):
-        return self.username
+        return self.email
 class Mentee(models.Model):
     mentor_id = models.IntegerField(default = 0, null=True)
     name = models.CharField(max_length=200, null=False)
