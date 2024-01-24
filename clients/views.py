@@ -260,7 +260,7 @@ def get_team_mentee(request,id):
     
             return Response(
                 {
-                    "user_data": serializer.errors,
+                    "user_data": teamSerializer.errors,
                     "status_message": res_message,
                     "status_code": res_status,
                 }, status=res_status)
@@ -289,5 +289,6 @@ def Getteams(request):
     
     return Response({
         "message": res_message,
-        "data": res_data
+        "data": res_data,
+        "status_code": res_status
     }, status=res_status)

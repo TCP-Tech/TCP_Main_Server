@@ -33,16 +33,27 @@ class Question(models.Model):
     Qname = models.CharField(max_length=200, null=False)
     topic = models.CharField(max_length=200)
     Level = models.CharField(max_length=200)
+    problemLink =models.URLField(max_length=200)
     description= models.CharField(max_length=300,blank=True,null=True)
-    codeforcesLink =models.URLField(max_length=100,blank=True)
-    codechefLink =models.URLField(max_length=100,blank=True)
-    leetcodeLink =models.URLField(max_length=100,blank=True)
-    gfgLink=models.URLField(max_length=100,blank=True)
-    hackerrankLink=models.URLField(max_length=100,blank=True)
     mentorId = models.IntegerField()
     allotedTime= models.DateTimeField(default=timezone.now)
     Qstatus= models.BooleanField(default=False)
     SubmittedAt = models.DateTimeField(default=timezone.now,blank=True)
+    submittedmenteeId=models.CharField(max_length=100,blank=True,null=True)
+   
+
+    def add_value(self, new_value):
+        # Add a new value to the comma-separated values
+        if self.submittedmenteeId:
+            self.submittedmenteeId += f",{new_value}"
+        else:
+            self.submittedmenteeId = new_value
+        self.save()
+
+    def get_values_as_list(self):
+        # Return the comma-separated values as a list
+        return self.submittedmenteeId.split(',')
+
 
    
 
