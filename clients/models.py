@@ -63,7 +63,8 @@ class Mentor(models.Model):
     def __str__(self):
         return self.email
 class Mentee(models.Model):
-    mentor_id = models.IntegerField(default = 0, null=True)
+    mentor_id = models.IntegerField(default = 0, null=True,blank=True)
+    Menteeteam=models.ForeignKey('Team', on_delete=models.SET_NULL, null=True, blank=True)
     name = models.CharField(max_length=200, null=False)
     email=models.EmailField(null=False,unique=True)
     username = models.CharField(max_length=200,null=False,unique=True)

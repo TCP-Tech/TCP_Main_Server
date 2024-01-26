@@ -1,6 +1,11 @@
 from rest_framework import serializers
 from .models import *
 
+class TeamDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Team
+        fields = '__all__'
+
 class MentorSerializer(serializers.ModelSerializer):
     
     class Meta:
@@ -8,10 +13,11 @@ class MentorSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class MenteeSerializer(serializers.ModelSerializer):
-    
+    Menteeteam = TeamDetailSerializer(read_only=True)
     class Meta:
         model = Mentee
         fields = '__all__'
+    
 #['name','email', 'username', 'password', 'branch', 'semester', 'phone_number', 'codechefID', 'codeforcesID', 'leetcodeID', 'gfgID', 'hackerrankID', 'linkedinID', 'score', 'total_q']
 
 class MenteeUpdateSerializer(serializers.ModelSerializer):
@@ -29,3 +35,11 @@ class TeamSerializer(serializers.ModelSerializer):
         model = Team
         fields = '__all__'
     team_members = MenteeSerializer(many=True, read_only=True)
+    alloted_mentor=MentorSerializer(read_only=True)
+
+#data of mentees to be displayed after submission of question
+class MenteeQuestion(serializers.ModelSerializer):
+   
+    class Meta:
+        model = Mentee
+        fields = ['id','name']

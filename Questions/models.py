@@ -1,5 +1,5 @@
 from django.db import models
-from clients.models import Mentor
+from clients.models import Mentee
 from django.utils.timezone import utc
 from django.utils import timezone
 import datetime
@@ -37,9 +37,8 @@ class Question(models.Model):
     description= models.CharField(max_length=300,blank=True,null=True)
     mentorId = models.IntegerField()
     allotedTime= models.DateTimeField(default=timezone.now)
-    Qstatus= models.BooleanField(default=False)
     SubmittedAt = models.DateTimeField(default=timezone.now,blank=True)
-    submittedmenteeId=models.CharField(max_length=100,blank=True,null=True)
+    submitedMentees=models.ManyToManyField(Mentee)
    
 
     def add_value(self, new_value):

@@ -1,10 +1,11 @@
 from rest_framework import serializers
 from .models import *
+from clients.serializers import MenteeQuestion
 
 
 class QuestionSerializer(serializers.ModelSerializer):
 
-    
+    submitedMentees=MenteeQuestion(many=True)
     class Meta:
         model = Question
         fields = '__all__'
