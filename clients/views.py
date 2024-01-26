@@ -292,3 +292,22 @@ def Getteams(request):
         "data": res_data,
         "status_code": res_status
     }, status=res_status)
+
+@api_view(['GET'])
+def Getmentees(request):
+    
+    Mente = Mentee.objects.all()
+    res_data = MenteeSerializer(Mente, many = True, context={'request': request}).data
+ 
+    if len(Mente):
+        res_message = "Mentee's Data Fetched successfully."
+        res_status = status.HTTP_200_OK
+    else:
+        res_message = "Mentee's Does not exist in DB"
+        res_status = status.HTTP_404_NOT_FOUND
+    
+    return Response({
+        "message": res_message,
+        "data": res_data,
+        "status_code": res_status
+    }, status=res_status)

@@ -117,7 +117,7 @@ def Onsubmit(request):
     
     menteeId=data.get("menteeId")
     qId=data.get("qId")
-
+    mentee=Mentee.objects.get(id=menteeId)
 
     question=Question.objects.get(id=qId)
     level=question.Level
@@ -128,9 +128,9 @@ def Onsubmit(request):
 
     menteesubmission=False
     
-    if question.submittedmenteeId:
-        submittedMenteeIds= question.get_values_as_list()
-        if menteeId in submittedMenteeIds:
+    if question.submitedMentees.exists():
+        
+        if mentee in question.submitedMentees.all():
             menteesubmission=True
        
     
@@ -138,11 +138,11 @@ def Onsubmit(request):
     if question and not menteesubmission:
         question.Qstatus=True
         question.SubmittedAt=timezone.now()
-        question.add_value(menteeId)
+        question.submitedMentees.add(mentee)
         question.save() 
         mentorId=question.mentorId
         mentor=Mentor.objects.get(id=mentorId)
-        mentee=Mentee.objects.get(id=menteeId)
+        
         team=Team.objects.get(team_members=mentee)
         timediff=getTimediff(question.allotedTime,question.SubmittedAt)
         score=getScore(question.allotedTime,question.SubmittedAt)
