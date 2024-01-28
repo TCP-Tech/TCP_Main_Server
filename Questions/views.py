@@ -39,7 +39,7 @@ def QuestionRegister(request):
             mentor.save()
             team=Team.objects.get(alloted_mentor=mentor)
             
-            res_message = "Question added into DB"
+            res_message = "Question added to DB"
             res_status = status.HTTP_200_OK
             return Response(
                 {
@@ -74,10 +74,10 @@ def GetQuestion(request,mentorId):
     res_data = QuestionSerializer(question, many = True, context={'request': request}).data
  
     if len(question):
-        res_message = "questions Data Fetched successfully."
+        res_message = "Questions data fetched successfully"
         res_status = status.HTTP_200_OK
     else:
-        res_message = "questions Does not exist in DB"
+        res_message = "Question does not exist in DB"
         res_status = status.HTTP_404_NOT_FOUND
     
     return Response({
@@ -161,18 +161,19 @@ def Onsubmit(request):
         team.save()
         mentor.save()
         mentee.save()
-        res_msg="question successfully submitted"
+        res_msg="Question submitted successfully"
         res_status = status.HTTP_200_OK
     
     elif menteesubmission:
-        res_msg = "questions already submitted"
+        res_msg = "Question already submitted"
         res_status = status.HTTP_403_FORBIDDEN
     else :
-        res_msg = "questions does not exist"
+        res_msg = "Question does not exist"
         res_status = status.HTTP_404_NOT_FOUND
 
     return Response({
         "message": res_msg,
+        "score":score,
         "status_code": res_status
     }, status=res_status)
 
