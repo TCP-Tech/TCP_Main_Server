@@ -38,33 +38,10 @@ class Question(models.Model):
     mentorId = models.IntegerField()
     allotedTime= models.DateTimeField(default=timezone.now)
     SubmittedAt = models.DateTimeField(default=timezone.now,blank=True)
-    submitedMentees=models.ManyToManyField(Mentee)
-   
-
-    def add_value(self, new_value):
-        # Add a new value to the comma-separated values
-        if self.submittedmenteeId:
-            self.submittedmenteeId += f",{new_value}"
-        else:
-            self.submittedmenteeId = new_value
-        self.save()
-
-    def get_values_as_list(self):
-        # Return the comma-separated values as a list
-        return self.submittedmenteeId.split(',')
-
-
+    submitedMentees=models.ManyToManyField(Mentee,blank=True)
    
 
     def __str__(self):
         return self.Qname
     
-    
-    
-   
 
-    
-
-    
-    
-   
