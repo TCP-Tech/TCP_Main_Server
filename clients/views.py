@@ -284,7 +284,7 @@ def Getteams(request):
         res_message = "Teams Data Fetched successfully."
         res_status = status.HTTP_200_OK
     else:
-        res_message = "Teams Does not exist in DB"
+        res_message = "Team does not exist in DB"
         res_status = status.HTTP_404_NOT_FOUND
     
     return Response({
@@ -303,7 +303,7 @@ def Getmentees(request):
         res_message = "Mentee's Data Fetched successfully."
         res_status = status.HTTP_200_OK
     else:
-        res_message = "Mentee's Does not exist in DB"
+        res_message = "Mentee does not exist in DB"
         res_status = status.HTTP_404_NOT_FOUND
     
     return Response({
