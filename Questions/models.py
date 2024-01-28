@@ -39,9 +39,7 @@ class Question(models.Model):
     allotedTime= models.DateTimeField(default=timezone.now)
     SubmittedAt = models.DateTimeField(default=timezone.now,blank=True)
     submitedMentees=models.ManyToManyField(Mentee,blank=True)
-   
 
     def __str__(self):
         return self.Qname
-    
 
