@@ -10,5 +10,7 @@ urlpatterns = [
     path('server/update_mentee', views.updateMenteeProfile),
     path('server/update_mentor', views.updateMentorProfile),
     path('server/getTeams/', views.Getteams),
-    path('server/getMentees/', views.Getmentees)
+    path('server/getMentees/', views.Getmentees),
+    path('server/getMentee/<menteeId>', views.GetmenteeDetail),
+    path('server/getMentor/<mentorId>', views.GetmentorDetail)
 ]

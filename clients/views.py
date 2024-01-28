@@ -124,7 +124,7 @@ def menteeLogout(request):
     
 @api_view(['POST'])
 def updateMentorProfile(request):
-    try:
+    # try:
         req = json.loads(request.body.decode("utf-8"))
         mentor = Mentor.objects.get(email = request.data['email'])
         serializer = MentorUpdateSerializer(mentor,data=request.data, partial=True)
@@ -149,19 +149,19 @@ def updateMentorProfile(request):
                     "status_code": res_status,
                 }, status=res_status)
             
-    except Exception as e:
-        res_message = "Internal Server Error"
-        res_status = status.HTTP_500_INTERNAL_SERVER_ERROR
-        return Response(
-            {
-                "status_message": res_message,
-                "status_code": res_status,
-            }, status=res_status
-        )
+    # except Exception as e:
+    #     res_message = "Internal Server Error"
+    #     res_status = status.HTTP_500_INTERNAL_SERVER_ERROR
+    #     return Response(
+    #         {
+    #             "status_message": res_message,
+    #             "status_code": res_status,
+    #         }, status=res_status
+    #     )
 
 @api_view(['POST'])
 def updateMenteeProfile(request):
-    try:
+    # try:
         req = json.loads(request.body.decode("utf-8"))
         mentee = Mentee.objects.get(email = request.data['email'])
         serializer = MenteeUpdateSerializer(mentee,data=request.data, partial=True)
@@ -186,15 +186,15 @@ def updateMenteeProfile(request):
                     "status_code": res_status,
                 }, status=res_status)
             
-    except Exception as e:
-        res_message = "Internal Server Error"
-        res_status = status.HTTP_500_INTERNAL_SERVER_ERROR
-        return Response(
-            {
-                "status_message": res_message,
-                "status_code": res_status,
-            }, status=res_status
-        )
+    # except Exception as e:
+    #     res_message = "Internal Server Error"
+    #     res_status = status.HTTP_500_INTERNAL_SERVER_ERROR
+    #     return Response(
+    #         {
+    #             "status_message": res_message,
+    #             "status_code": res_status,
+    #         }, status=res_status
+    #     )
     
 @api_view(['GET'])
 def get_team_mentor(request,id):
@@ -309,5 +309,43 @@ def Getmentees(request):
     return Response({
         "message": res_message,
         "data": res_data,
+        "status_code": res_status
+    }, status=res_status)
+
+@api_view(['GET'])
+def GetmenteeDetail(request,menteeId):
+    
+    Mente = Mentee.objects.get(id=menteeId)
+    res_data = MenteeSerializer(Mente).data
+ 
+    if Mente:
+        res_message = "Mentee Data Fetched successfully."
+        res_status = status.HTTP_200_OK
+    else:
+        res_message = "Mentee Does not exist in DB"
+        res_status = status.HTTP_404_NOT_FOUND
+    
+    return Response({
+        "data": res_data,
+        "message": res_message,
+        "status_code": res_status
+    }, status=res_status)
+
+@api_view(['GET'])
+def GetmentorDetail(request,mentorId):
+    
+    Mento = Mentor.objects.get(id=mentorId)
+    res_data = MentorSerializer(Mento).data
+ 
+    if Mento:
+        res_message = "Mentor Data Fetched successfully."
+        res_status = status.HTTP_200_OK
+    else:
+        res_message = "Mentor Does not exist in DB"
+        res_status = status.HTTP_404_NOT_FOUND
+    
+    return Response({
+        "data": res_data,
+        "message": res_message,
         "status_code": res_status
     }, status=res_status)
