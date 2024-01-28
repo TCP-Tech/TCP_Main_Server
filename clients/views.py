@@ -300,7 +300,7 @@ def Getmentees(request):
     res_data = MenteeSerializer(Mente, many = True, context={'request': request}).data
  
     if len(Mente):
-        res_message = "Mentee's Data Fetched successfully."
+        res_message = "Mentees Data Fetched successfully."
         res_status = status.HTTP_200_OK
     else:
         res_message = "Mentee does not exist in DB"

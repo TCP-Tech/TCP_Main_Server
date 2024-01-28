@@ -74,7 +74,7 @@ def GetQuestion(request,mentorId):
     res_data = QuestionSerializer(question, many = True, context={'request': request}).data
  
     if len(question):
-        res_message = "Questions data fetched successfully"
+        res_message = "Question data fetched successfully"
         res_status = status.HTTP_200_OK
     else:
         res_message = "Question does not exist in DB"
@@ -109,7 +109,7 @@ def getScore(allotedTime,submittedtime):
 #functions to calculate time difference
 def getTimediff(allotedTime,submittedtime):
     time_difference = submittedtime - allotedTime
-    return time_difference.total_seconds() // 3600
+    return time_difference.total_seconds() // 60
 
 
 @api_view(['POST'])
