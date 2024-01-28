@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Question
-from .serializers import QuestionSerializer
+from .serializers import *
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -19,8 +19,9 @@ def QuestionRegister(request):
         topicss=data.get('topic')
         topics=topicss.split(" ")
 
-        print(level)
-        serializer = QuestionSerializer(data=data)
+        
+        serializer = addQuestionSerializer(data=data)
+        
 
         if serializer.is_valid():
             serializer.save() 
