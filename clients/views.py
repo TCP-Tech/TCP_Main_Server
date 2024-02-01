@@ -24,10 +24,7 @@ def mentorLogin(request):
         else:
             res_message = "Valid User"
             res_status = status.HTTP_200_OK
-            for k,v in user.__dict__.items():
-                if str(k) == '_state':
-                    continue
-                data[k]=str(v)
+            data=MentorSerializer(user).data
     except:
         res_message = "User Not Found"
         res_status = status.HTTP_403_FORBIDDEN
@@ -62,10 +59,7 @@ def menteeLogin(request):
         else:
             res_message = "Valid User"
             res_status = status.HTTP_200_OK
-            for k,v in user.__dict__.items():
-                if str(k) == '_state':
-                    continue
-                data[k]=str(v)
+            data=MenteeSerializer(user).data
     except:
         res_message = "User Not Found"
         res_status = status.HTTP_403_FORBIDDEN
