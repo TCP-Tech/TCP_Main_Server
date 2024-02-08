@@ -343,3 +343,69 @@ def GetmentorDetail(request,mentorId):
         "message": res_message,
         "status_code": res_status
     }, status=res_status)
+
+@api_view(['POST'])
+def createTeam(request):
+    teamname=request.data['teamname']
+    mentorid=request.data['mentorid']
+    
+    mentor=Mentor.objects.get(id=mentorid)
+    mentees=Mentee.objects.filter(mentor_id=mentorid)
+    print(mentor)
+    print(mentees)
+    team = Team.objects.create(team_name=teamname, alloted_mentor=mentor)
+    team.team_members.add(*mentees)   
+    if team:
+            res_message = "Team created"
+            res_status = status.HTTP_200_OK
+            team.save() 
+            for mentee in mentees:
+                mentee.Menteeteam=team
+                mentee.save()
+               
+            return Response(
+                {
+                    "status_message": res_message,
+                    "status_code": res_status,
+                }, status=res_status)
+    else:
+            res_message = "Team couldn't be created"
+            res_status = status.HTTP_403_FORBIDDEN
+    
+            return Response(
+                {
+                    "status_message": res_message,
+                    "status_code": res_status,
+                }, status=res_status)
+
+@api_view(['POST'])
+def updateTeam(request):
+    mentorid=request.data['mentorid']
+    mentor=Mentor.objects.get(id=mentorid)
+    team=Team.objects.get(alloted_mentor=mentor)
+    data={
+        'team_name':request.data['teamname']
+    }
+    serializer = TeamSerializer(team,data=data, partial=True)
+    if serializer.is_valid():
+            serializer.save()
+            res_message = "team updated"
+            res_status = status.HTTP_200_OK
+            return Response(
+                {
+                    "user_data": serializer.data,
+                    "status_message": res_message,
+                    "status_code": res_status,
+                }, status=res_status)
+    else:
+            res_message = "team couldn't be updated"
+            res_status = status.HTTP_400_BAD_REQUEST
+    
+            return Response(
+                {
+                    "user_data": serializer.errors,
+                    "status_message": res_message,
+                    "status_code": res_status,
+                }, status=res_status)
+    
+
