@@ -99,7 +99,7 @@ class Mentee(models.Model):
 
 
 class Team(models.Model):
-    team_name       = models.CharField(max_length=50,null=False)
+    team_name       = models.CharField(max_length=50,null=False,unique=True)
     alloted_mentor = models.ForeignKey(Mentor, on_delete=models.SET_NULL, null=True, blank=True)
     team_members = models.ManyToManyField(Mentee)
     team_score      = models.IntegerField(default=0)
