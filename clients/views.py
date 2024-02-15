@@ -78,12 +78,23 @@ def menteeLogin(request):
 def menteeRegister(request):
     try:
         data = request.data
+        mentorid=request.data['mentor_id']
+
         serializer = MenteeSerializer(data=data)
         
         if serializer.is_valid():
             res_message = "Mentee created"
             res_status = status.HTTP_200_OK
             serializer.save() 
+            mentor=Mentor.objects.get(id=mentorid)
+            if mentor.Mentorteam :
+                # add this new mentee to  Mentorteam 
+                mentee_instance = serializer.instance
+                mentor.Mentorteam.team_members.add(mentee_instance)
+                res_message += " and added to MentorTeam"
+                mentee_instance.Menteeteam=mentor.Mentorteam
+                mentee_instance.save()
+
             return Response(
                 {
                     "user_data": serializer.data,
@@ -362,6 +373,8 @@ def createTeam(request):
             for mentee in mentees:
                 mentee.Menteeteam=team
                 mentee.save()
+            mentor.Mentorteam=team
+            mentor.save()
                
             return Response(
                 {
