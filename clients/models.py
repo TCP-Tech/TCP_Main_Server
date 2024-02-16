@@ -39,6 +39,7 @@ DSA_q= {'Array': '0',
 class Mentor(models.Model):
 
     name = models.CharField(max_length=200, null=False)
+    Mentorteam=models.ForeignKey('Team', on_delete=models.SET_NULL, null=True, blank=True)
     email=models.EmailField(null=False,unique=True)
     password = models.CharField(max_length=200)
     branch = models.CharField(max_length=10,choices=Branches)

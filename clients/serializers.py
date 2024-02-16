@@ -7,7 +7,7 @@ class TeamDetailSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class MentorSerializer(serializers.ModelSerializer):
-    
+    Mentorteam = TeamDetailSerializer(read_only=True)
     class Meta:
         model = Mentor
         fields = '__all__'
