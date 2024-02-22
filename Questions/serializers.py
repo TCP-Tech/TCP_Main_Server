@@ -10,7 +10,7 @@ class QuestionSerializer(serializers.ModelSerializer):
         model = Question
         fields = '__all__'
        
-    formated_allotedtime = serializers.DateTimeField(source='allotedTime', format='%d-%m-%Y %H:%M:%S %Z%z ', read_only=True)
+    formated_allotedtime = serializers.DateTimeField(source='allotedTime', format='%d-%m-%Y %I:%M %p ', read_only=True)
 
 class addQuestionSerializer(serializers.ModelSerializer):
 
@@ -19,4 +19,4 @@ class addQuestionSerializer(serializers.ModelSerializer):
         model = Question
         fields = '__all__'
        
-    formated_allotedtime = serializers.DateTimeField(source='allotedTime', format='%d-%m-%Y %H:%M:%S %Z%z ', read_only=True)
+    formated_allotedtime = serializers.DateTimeField(source='allotedTime', format='%d-%m-%Y %I:%M %p ', read_only=True)
