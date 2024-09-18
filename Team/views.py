@@ -1,19 +1,35 @@
-from django.shortcuts import render
-from .models import TeamData
-from .serializers import TeamDataSerializer
-from rest_framework.decorators import api_view
+from django.views.decorators.csrf import csrf_exempt
+import json
+from .models import TeamMember
 from rest_framework.response import Response
+from django.http import HttpResponse
+from rest_framework.decorators import api_view
+from rest_framework import status
+from .serializers import TeamSerializer
 
-#view to get overall team data
-@api_view(['GET'])
-def teamData(request):
-    teammembers = TeamData.objects.all()
-    rtr = TeamDataSerializer(teammembers, many = True)
-    return Response(rtr.data)
 
-#view to get each year's team data
-@api_view(['GET'])
-def teamDataByYear(request, year):
-    teammembers = TeamData.objects.all().filter(year = year)
-    rtr = TeamDataSerializer(teammembers, many = True)
-    return Response(rtr.data)
+
+@api_view(['GET', ])
+def get_members(request,year):
+    members = TeamMember.objects.filter(year=year)
+    res_data = TeamSerializer(members, many=True,context={
+            'request': request}).data
+    if len(members) > 0:
+        res_message = "Team members Fetched successfully."
+        res_status = status.HTTP_200_OK
+    else:
+        res_message = "Team members couldn't be fetched"
+        res_status = status.HTTP_404_NOT_FOUND
+
+    return Response({
+        "message": res_message,
+        "data": res_data
+    }, status=res_status)
+
+
+# @api_view(['GET'])
+# def team_years(req):
+#     years = Member.objects.values_list('year').distinct()
+#     return Response({
+#         'years': [x for x in years]
+#     })
