@@ -25,7 +25,7 @@ Branches = [
     ['MCA']*2
 ]
 
-class TeamMembers(models.Model):
+class TeamMember(models.Model):
     domain_choices = [
         ['Technical']*2,
         ['sponsorship']*2,

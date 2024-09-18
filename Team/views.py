@@ -1,6 +1,6 @@
 from django.views.decorators.csrf import csrf_exempt
 import json
-from .models import TeamMembers
+from .models import TeamMember
 from rest_framework.response import Response
 from django.http import HttpResponse
 from rest_framework.decorators import api_view
@@ -11,7 +11,7 @@ from .serializers import TeamSerializer
 
 @api_view(['GET', ])
 def get_members(request,year):
-    members = TeamMembers.objects.filter(year=year)
+    members = TeamMember.objects.filter(year=year)
     res_data = TeamSerializer(members, many=True,context={
             'request': request}).data
     if len(members) > 0:
