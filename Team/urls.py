@@ -2,9 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from . import views
 
-
-#url routing
 urlpatterns = [
-    path('server/team/', views.teamData),
-    path('server/team/<str:year>', views.teamDataByYear),
+    path('server/team/<int:year>/', views.get_members),
+    # path('team_years/', views.team_years)   to get the years for which teams data is stored.
 ]
