@@ -42,7 +42,8 @@ class TeamMember(models.Model):
     year = models.IntegerField(default=2024)
     domain = models.CharField(max_length=100, choices=domain_choices, default='PR & Marketing')
     linkedin = models.URLField(blank=True, null=True)
-    
+    instagram = models.URLField(blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
 
 
     @property
