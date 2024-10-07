@@ -1,26 +1,21 @@
-/Team/migrations
-/Events/migrations
-/Speakers/migrations
-/ProblemStatements/migrations
-/Counter/migrations
-/Sponsors/migrations
-/Sponsors/__pycache__
-/ShortlistedTeams/migrations
-/ShortlistedTeams/__pycache__
-/Winners/migrations
-/Winners/__pycache__
-/Glimpses/migrations
-/Glimpses/__pycache__
-/dev-env
-/static
-/Team/__pycache__
-/Events/__pycache__
-/Speakers/__pycache__
-/ProblemStatements/__pycache__
-/server/__pycache__
-venv/
-/Counter/__pycache__
-/clients/__pycache__
-/clients/migrations
-/Questions/__pycache__
-/Questions/migrations
+#Virtual Environments
+env
+venv
+myenv
+
+#Database
+db.sqlite3
+
+#Cache Files
+**/__pycache__
+.env
+*.pyc
+
+static/uploads/
+debug.log
+
+
+
+dumped/
+# */migrations
+
