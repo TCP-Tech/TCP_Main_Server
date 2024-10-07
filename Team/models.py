@@ -46,9 +46,9 @@ class TeamMember(models.Model):
     email = models.EmailField(blank=True, null=True)
 
 
-    @property
-    def image_url(self):
-        return config('HOST')+self.image.url
+    # @property
+    # def image_url(self):
+    #     return config('HOST')+self.image.url
 
 
     def __str__(self):
