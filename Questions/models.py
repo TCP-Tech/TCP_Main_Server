@@ -22,11 +22,11 @@ DSA_topic={
     ("8","Greedy"),
     ("9","Backtracking"),
     ("10","Stacks & Queues"),
-    ("11","Heap"),
-    ("12","Graph"),
-    ("13","Trie"),
-    ("14","Dynammic Programming"),
-    ("15","Bit Manupilation")
+    ("11","Heaps"),
+    ("12","Graphs"),
+    ("13","Tries"),
+    ("14","Dynamic Programming"),
+    ("15","Bit Manipulation")
 }
 
 class Question(models.Model):

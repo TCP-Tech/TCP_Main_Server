@@ -1,5 +1,5 @@
 from django.db import models
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator,MinLengthValidator  
 from django.contrib.auth.models import AbstractUser
 from django.core.serializers import serialize
 # Create your models here.
@@ -31,8 +31,8 @@ DSA_q= {'Array': '0',
         'Heap': '0',
         'Graph': '0',
         'Trie': '0',
-        'Dynammic Programming': '0',
-        'Bit Manupilation': '0'
+        'Dynamic Programming': '0',
+        'Bit Manipulation': '0'
 
         }
 
@@ -41,7 +41,7 @@ class Mentor(models.Model):
     name = models.CharField(max_length=200, null=False)
     Mentorteam=models.ForeignKey('Team', on_delete=models.SET_NULL, null=True, blank=True)
     email=models.EmailField(null=False,unique=True)
-    password = models.CharField(max_length=200)
+    password = models.CharField(max_length=200,validators=[MinLengthValidator(8)])
     branch = models.CharField(max_length=10,choices=Branches)
     semester = models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(8)])
     phone_number = models.CharField(max_length=10,unique=True)
@@ -69,7 +69,7 @@ class Mentee(models.Model):
     name = models.CharField(max_length=200, null=False)
     email=models.EmailField(null=False,unique=True)
     username = models.CharField(max_length=200,null=False,unique=True)
-    password = models.CharField(max_length=200)
+    password = models.CharField(max_length=200,validators=[MinLengthValidator(8)])
     branch = models.CharField(max_length=10)
     semester = models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(8)])
     phone_number = models.CharField(max_length=10,unique=True)
