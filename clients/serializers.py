@@ -23,7 +23,7 @@ class MenteeSerializer(serializers.ModelSerializer):
 class MenteeUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Mentee
-        fields = ['image', 'name', 'phone_number','username', 'password', 'branch', 'semester', 'codechefID', 'codeforcesID', 'leetcodeID', 'gfgID', 'hackerrankID', 'linkedinID']
+        fields = ['image','mentor_id', 'name', 'phone_number','username', 'password', 'branch', 'semester', 'codechefID', 'codeforcesID', 'leetcodeID', 'gfgID', 'hackerrankID', 'linkedinID']
 class MentorUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Mentor
