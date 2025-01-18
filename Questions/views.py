@@ -124,6 +124,19 @@ def update_team_ranks():
 
     print("Team ranks updated successfully.")
 
+def update_Mentee_ranks():
+    # Fetch all teams, order them by score (descending) and cumHour_diff (ascending)
+    mentees = Mentee.objects.all().order_by('-score', 'cumHour_diff')
+    
+    # Assign ranks based on the sorted order
+    rank = 1
+    for mentee in mentees:
+        mentee.Mentee_rank = rank
+        mentee.save()  # Save the updated rank
+        rank += 1
+
+    print("Mentee ranks updated successfully.")
+
 @api_view(['POST'])
 def Onsubmit(request):
     data=request.data
@@ -174,6 +187,7 @@ def Onsubmit(request):
         mentor.save()
         mentee.save()
         update_team_ranks()
+        update_Mentee_ranks()
         res_msg="Question submitted successfully"
         res_status = status.HTTP_200_OK
     
