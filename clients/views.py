@@ -76,17 +76,19 @@ def menteeLogin(request):
     
 @api_view(['POST'])
 def menteeRegister(request):
-    try:
-        data = request.data
-        mentorid=request.data['mentor_id']
-
+    # try:
+        data = request.data.copy()
+        mentorEmail = data.get('mentor_email')
+        mentor = Mentor.objects.get(email=mentorEmail)  # Get the mentor object
+        mentorid=mentor.id
+        data['mentor_id'] = mentor.id  # Use the mentor's ID
+        data.pop('mentor_email', None)  # Remove 'mentor_email' from data
         serializer = MenteeSerializer(data=data)
         
         if serializer.is_valid():
             res_message = "Mentee created"
             res_status = status.HTTP_200_OK
             serializer.save() 
-            mentor=Mentor.objects.get(id=mentorid)
             if mentor.Mentorteam :
                 # add this new mentee to  Mentorteam 
                 mentee_instance = serializer.instance
@@ -112,15 +114,15 @@ def menteeRegister(request):
                     "status_code": res_status,
                 }, status=res_status)
             
-    except Exception as e:
-        res_message = "Mentee couldn't be created"
-        res_status = status.HTTP_403_FORBIDDEN
-        return Response(
-            {
-                    "status_message": res_message,
-                    "status_code": res_status,
-                }, status=res_status
-        )
+    # except Exception as e:
+    #     res_message = "Mentee couldn't be created"
+    #     res_status = status.HTTP_403_FORBIDDEN
+    #     return Response(
+    #         {
+    #                 "status_message": res_message,
+    #                 "status_code": res_status,
+    #             }, status=res_status
+    #     )
 
 
 @api_view(['POST'])
