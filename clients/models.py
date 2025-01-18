@@ -86,6 +86,7 @@ class Mentee(models.Model):
     solvedQ = models.BigIntegerField(default=0)
     Qlevel_count=models.JSONField(default=dict,null=True,blank=True)
     cumHour_diff=models.BigIntegerField(default=0)
+    Mentee_rank=models.IntegerField(default=0)
 
     
     
