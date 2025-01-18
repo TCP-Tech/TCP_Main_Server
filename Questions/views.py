@@ -111,6 +111,18 @@ def getTimediff(allotedTime,submittedtime):
     time_difference = submittedtime - allotedTime
     return time_difference.total_seconds() // 60
 
+def update_team_ranks():
+    # Fetch all teams, order them by score (descending) and cumHour_diff (ascending)
+    teams = Team.objects.all().order_by('-team_score', 'cumHour_diff')
+    
+    # Assign ranks based on the sorted order
+    rank = 1
+    for team in teams:
+        team.team_rank = rank
+        team.save()  # Save the updated rank
+        rank += 1
+
+    print("Team ranks updated successfully.")
 
 @api_view(['POST'])
 def Onsubmit(request):
@@ -161,6 +173,7 @@ def Onsubmit(request):
         team.save()
         mentor.save()
         mentee.save()
+        update_team_ranks()
         res_msg="Question submitted successfully"
         res_status = status.HTTP_200_OK
     

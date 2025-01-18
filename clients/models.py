@@ -105,7 +105,7 @@ class Team(models.Model):
     team_members = models.ManyToManyField(Mentee)
     team_score      = models.IntegerField(default=0)
     cumHour_diff=models.BigIntegerField(default=0)
-    
+    team_rank=models.IntegerField(default=0)
     
     def __str__(self):
         return self.team_name    
