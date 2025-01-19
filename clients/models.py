@@ -45,7 +45,7 @@ class Mentor(models.Model):
     branch = models.CharField(max_length=10,choices=Branches)
     semester = models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(8)])
     phone_number = models.CharField(max_length=10,unique=True)
-    image=models.URLField(null=True,blank=True,default="https://avatars.githubusercontent.com/u/5783068?v=4")
+    image=models.URLField(null=True,blank=True,default="https://avatar.iran.liara.run/public/8")
     codechefID = models.URLField(max_length=300,null=True,blank=True)
     codeforcesID = models.URLField(max_length=300,null=True,blank=True)
     leetcodeID = models.URLField(max_length=300,null=True,blank=True)
@@ -73,7 +73,7 @@ class Mentee(models.Model):
     branch = models.CharField(max_length=10)
     semester = models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(8)])
     phone_number = models.CharField(max_length=10,unique=True)
-    image=models.URLField(null=True,blank=True,default="https://avatars.githubusercontent.com/u/5783068?v=4")
+    image=models.URLField(null=True,blank=True,default="https://avatar.iran.liara.run/public/48")
     codechefID = models.URLField(max_length=300,null=True,blank=True)
     codeforcesID = models.URLField(max_length=300,null=True,blank=True)
     leetcodeID = models.URLField(max_length=300,null=True,blank=True)
@@ -101,7 +101,7 @@ class Mentee(models.Model):
 
 
 class Team(models.Model):
-    team_name       = models.CharField(max_length=50,null=False,unique=True)
+    team_name       = models.CharField(max_length=50,null=False,unique=True,validators=[MinLengthValidator(1)])
     alloted_mentor = models.ForeignKey(Mentor, on_delete=models.SET_NULL, null=True, blank=True)
     team_members = models.ManyToManyField(Mentee)
     team_score      = models.IntegerField(default=0)
