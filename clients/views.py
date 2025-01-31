@@ -248,7 +248,7 @@ def get_team_mentee(request,id):
         if mentee:
             team_data = mentee.get_team()
             mentor = team_data[0].alloted_mentor
-            mentorSerializer = MentorSerializer(mentor)
+            mentorSerializer = MentorGetSerializer(mentor)
             teamSerializer=TeamSerializer(team_data, many=True)
             res_message = "Valid user"
             res_status = status.HTTP_200_OK
@@ -304,7 +304,7 @@ def Getteams(request):
 def Getmentees(request):
     
     Mente = Mentee.objects.all()
-    res_data = MenteeSerializer(Mente, many = True, context={'request': request}).data
+    res_data = MenteeGetSerializer(Mente, many=True, context={'request': request}).data
  
     if len(Mente):
         res_message = "Mentees Data Fetched successfully."
