@@ -39,9 +39,9 @@ jobs:
       run: |
         sudo scp -o StrictHostKeyChecking=no -i tcp.pem -r . root@142.93.212.1:/home/TCP_Main_Server/
 
-    - name: Restart server (optional)
-      run: |
-        ssh -o StrictHostKeyChecking=no -i tcp.pem root@142.93.212.1 'sudo systemctl restart gunicorn && sudo systemctl restart nginx'
+    # - name: Restart server (optional)
+    #   run: |
+    #     ssh -o StrictHostKeyChecking=no -i tcp.pem root@142.93.212.1 'sudo systemctl restart gunicorn && sudo systemctl restart nginx'
 
     - name: Backend is live!
       run: echo "Django Backend Deployed! 🔥"
