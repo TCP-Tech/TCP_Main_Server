@@ -1,0 +1,47 @@
+name: Deploy Django Backend
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  CI: false
+
+jobs:
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.11
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Collect static files
+      run: python manage.py collectstatic --noinput
+
+    - name: Generate PEM
+      run: echo "$PEM" >> tcp.pem && chmod 400 tcp.pem
+      env:
+        PEM: ${{ secrets.PEM }}
+
+    - name: Copy backend files to server
+      run: |
+        sudo scp -o StrictHostKeyChecking=no -i tcp.pem -r . root@142.93.212.1:/home/TCP_Main_Server/
+
+    - name: Restart server (optional)
+      run: |
+        ssh -o StrictHostKeyChecking=no -i tcp.pem root@142.93.212.1 'sudo systemctl restart gunicorn && sudo systemctl restart nginx'
+
+    - name: Backend is live!
+      run: echo "Django Backend Deployed! 🔥"
