@@ -39,7 +39,7 @@ jobs:
       env:
         PEM: ${{ secrets.PEM }}
 
-    - name: Copy project to server (rsync)
+    - name: Copy project to server (rsync) 
       run: |
         sudo apt-get update && sudo apt-get install -y rsync
         rsync -avz --exclude 'tcp.pem' -e "ssh -o StrictHostKeyChecking=no -i tcp.pem" ./ root@142.93.212.1:/home/TCP_Main_Server/
