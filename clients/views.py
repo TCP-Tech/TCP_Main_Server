@@ -6,7 +6,45 @@ from django.contrib.auth import authenticate, login, logout
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import json
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.contrib.auth.hashers import check_password
+from rest_framework.decorators import authentication_classes, permission_classes
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework.permissions import IsAuthenticated
+from django.views.decorators.csrf import csrf_exempt
 
+
+@api_view(['POST'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def logout_view(request):
+    """
+    Backend-only logout that blacklists the refresh token
+    """
+    try:
+        # Get the refresh token from the request
+        refresh_token = request.data.get('refresh_token')
+        
+        if not refresh_token:
+            return Response({
+                'status_message': 'Refresh token is required',
+                'status_code': status.HTTP_400_BAD_REQUEST,
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Create a RefreshToken instance and blacklist it
+        token = RefreshToken(refresh_token)
+        token.blacklist()
+        
+        return Response({
+            'status_message': 'Successfully logged out',
+            'status_code': status.HTTP_200_OK,
+        }, status=status.HTTP_200_OK)
+        
+    except Exception as e:
+        return Response({
+            'status_message': 'Invalid or expired token',
+            'status_code': status.HTTP_400_BAD_REQUEST,
+        }, status=status.HTTP_400_BAD_REQUEST)
 
 #view to get overall team data
 @api_view(['POST'])
@@ -14,65 +52,101 @@ def mentorLogin(request):
     req = json.loads(request.body.decode("utf-8"))
     email = req['email']
     password = req['password']
-    data = {}
-    try:
-        user = Mentor.objects.get(email = email)
-        if user.password != password:
-            res_message = "Invalid Password"
-            res_status = status.HTTP_403_FORBIDDEN
-        
-        else:
-            res_message = "Valid User"
-            res_status = status.HTTP_200_OK
-            data=MentorSerializer(user).data
-    except:
-        res_message = "User Not Found"
-        res_status = status.HTTP_403_FORBIDDEN
-        return Response({
-        "status_message": res_message,
-        "status_code": res_status,
-    }, status=res_status)
     
-    return Response({
-        "user_data": data,
-        "status_message": res_message,
-        "status_code": res_status,
-    }, status=res_status)
+    try:
+        mentor = Mentor.objects.get(email=email)
+        
+        if not mentor.check_password(password):
+            return Response({
+                "status_message": "Invalid Password",
+                "status_code": status.HTTP_403_FORBIDDEN,
+            }, status=status.HTTP_403_FORBIDDEN)
+        
+        # Create JWT tokens
+        refresh = RefreshToken()
+        refresh['user_id'] = mentor.id
+        refresh['user_type'] = 'mentor'
+        refresh['email'] = mentor.email
+        
+        return Response({
+            "user_data": MentorSerializer(mentor).data,
+            "access_token": str(refresh.access_token),
+            "refresh_token": str(refresh),
+            "status_message": "Valid User",
+            "status_code": status.HTTP_200_OK,
+        }, status=status.HTTP_200_OK)
+        
+    except Mentor.DoesNotExist:
+        return Response({
+            "status_message": "User Not Found",
+            "status_code": status.HTTP_403_FORBIDDEN,
+        }, status=status.HTTP_403_FORBIDDEN)
     
 @api_view(['POST'])
-def mentorLogout(request):
-    logout(request)
-    
+@api_view(['POST'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def mentor_logout(request):
+    try:
+        refresh_token = request.data.get('refresh_token')
+        
+        if not refresh_token:
+            return Response({
+                'status_message': 'Refresh token is required',
+                'status_code': status.HTTP_400_BAD_REQUEST,
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Blacklist the refresh token
+        token = RefreshToken(refresh_token)
+        token.blacklist()
+        
+        
+        return Response({
+            'status_message': 'Mentor successfully logged out',
+            'status_code': status.HTTP_200_OK,
+        }, status=status.HTTP_200_OK)
+        
+    except Exception as e:
+        return Response({
+            'status_message': 'Invalid or expired token',
+            'status_code': status.HTTP_400_BAD_REQUEST,
+        }, status=status.HTTP_400_BAD_REQUEST)
 
+    
 @api_view(['POST'])
 def menteeLogin(request):
     req = json.loads(request.body.decode("utf-8"))
     email = req['email']
     password = req['password']
-    data = {}
-    try:
-        user = Mentee.objects.get(email = email)
-        if user.password != password:
-            res_message = "Invalid Password"
-            res_status = status.HTTP_403_FORBIDDEN
-        
-        else:
-            res_message = "Valid User"
-            res_status = status.HTTP_200_OK
-            data=MenteeSerializer(user).data
-    except:
-        res_message = "User Not Found"
-        res_status = status.HTTP_403_FORBIDDEN
-        return Response({
-        "status_message": res_message,
-        "status_code": res_status,
-    }, status=res_status)
     
-    return Response({
-        "user_data": data,
-        "status_message": res_message,
-        "status_code": res_status,
-    }, status=res_status)
+    try:
+        mentee = Mentee.objects.get(email=email)
+        
+        if not mentee.check_password(password):
+            return Response({
+                "status_message": "Invalid Password",
+                "status_code": status.HTTP_403_FORBIDDEN,
+            }, status=status.HTTP_403_FORBIDDEN)
+        
+        # Create JWT tokens
+        refresh = RefreshToken()
+        refresh['user_id'] = mentee.id
+        refresh['user_type'] = 'mentee'
+        refresh['email'] = mentee.email
+        
+        return Response({
+            "user_data": MenteeSerializer(mentee).data,
+            "access_token": str(refresh.access_token),
+            "refresh_token": str(refresh),
+            "status_message": "Valid User",
+            "status_code": status.HTTP_200_OK,
+        }, status=status.HTTP_200_OK)
+        
+    except Mentee.DoesNotExist:
+        return Response({
+            "status_message": "User Not Found",
+            "status_code": status.HTTP_403_FORBIDDEN,
+        }, status=status.HTTP_403_FORBIDDEN)
     
 @api_view(['POST'])
 def menteeRegister(request):
@@ -126,13 +200,38 @@ def menteeRegister(request):
 
 
 @api_view(['POST'])
-def menteeLogout(request):
-    logout(request)
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def mentee_logout(request):
+    try:
+        refresh_token = request.data.get('refresh_token')
+        
+        if not refresh_token:
+            return Response({
+                'status_message': 'Refresh token is required',
+                'status_code': status.HTTP_400_BAD_REQUEST,
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Blacklist the refresh token
+        token = RefreshToken(refresh_token)
+        token.blacklist()
+        
+        return Response({
+            'status_message': 'Mentee successfully logged out',
+            'status_code': status.HTTP_200_OK,
+        }, status=status.HTTP_200_OK)
+        
+    except Exception as e:
+        return Response({
+            'status_message': 'Invalid or expired token',
+            'status_code': status.HTTP_400_BAD_REQUEST,
+        }, status=status.HTTP_400_BAD_REQUEST)
     
 @api_view(['POST'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def updateMentorProfile(request):
     # try:
-        req = json.loads(request.body.decode("utf-8"))
         mentor = Mentor.objects.get(email = request.data['email'])
         serializer = MentorUpdateSerializer(mentor,data=request.data, partial=True)
         if serializer.is_valid():
@@ -167,9 +266,10 @@ def updateMentorProfile(request):
     #     )
 
 @api_view(['POST'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def updateMenteeProfile(request):
     # try:
-        req = json.loads(request.body.decode("utf-8"))
         mentee = Mentee.objects.get(email = request.data['email'])
         serializer = MenteeUpdateSerializer(mentee,data=request.data, partial=True)
         if serializer.is_valid():
@@ -204,6 +304,8 @@ def updateMenteeProfile(request):
     #     )
     
 @api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def get_team_mentor(request,id):
     try:
         mentor = Mentor.objects.get(id=id)
@@ -242,6 +344,8 @@ def get_team_mentor(request,id):
         )
     
 @api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def get_team_mentee(request,id):
     try:
         mentee = Mentee.objects.get(id=id)
@@ -320,6 +424,8 @@ def Getmentees(request):
     }, status=res_status)
 
 @api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def GetmenteeDetail(request,menteeId):
     
     Mente = Mentee.objects.get(id=menteeId)
@@ -339,6 +445,8 @@ def GetmenteeDetail(request,menteeId):
     }, status=res_status)
 
 @api_view(['GET'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def GetmentorDetail(request,mentorId):
     
     Mento = Mentor.objects.get(id=mentorId)
@@ -358,6 +466,8 @@ def GetmentorDetail(request,mentorId):
     }, status=res_status)
 
 @api_view(['POST'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def createTeam(request):
     teamname=request.data['teamname']
     mentorid=request.data['mentorid']
@@ -394,6 +504,8 @@ def createTeam(request):
                 }, status=res_status)
 
 @api_view(['POST'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
 def updateTeam(request):
     mentorid=request.data['mentorid']
     mentor=Mentor.objects.get(id=mentorid)

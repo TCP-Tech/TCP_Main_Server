@@ -2,6 +2,7 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator,MinLengthValidator  
 from django.contrib.auth.models import AbstractUser
 from django.core.serializers import serialize
+from django.contrib.auth.hashers import make_password, check_password
 # Create your models here.
 # Mentor model
 
@@ -56,6 +57,16 @@ class Mentor(models.Model):
     total_q = models.BigIntegerField(default=0)
     topic_count=models.JSONField(default=dict,null=True,blank=True)
     Qlevel_count=models.JSONField(default=dict,null=True,blank=True)
+
+    def save(self, *args, **kwargs):
+        # Hash password if it's not already hashed
+        if self.password and not self.password.startswith('pbkdf2_'):
+            self.password = make_password(self.password)
+        super().save(*args, **kwargs)
+
+    def check_password(self, raw_password):
+        """Check if the provided password matches the hashed password"""
+        return check_password(raw_password, self.password)
     
     def allotted_teams(self):
         teams=  Team.objects.filter(alloted_mentor=self)
@@ -88,7 +99,15 @@ class Mentee(models.Model):
     cumHour_diff=models.BigIntegerField(default=0)
     Mentee_rank=models.IntegerField(default=0)
 
+    def save(self, *args, **kwargs):
+        # Hash password if it's not already hashed
+        if self.password and not self.password.startswith('pbkdf2_'):
+            self.password = make_password(self.password)
+        super().save(*args, **kwargs)
     
+    def check_password(self, raw_password):
+        """Check if the provided password matches the hashed password"""
+        return check_password(raw_password, self.password)
     
     def get_team(self):
         teams =  Team.objects.filter(team_members=self)
