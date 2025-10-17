@@ -44,6 +44,7 @@ class TeamMember(models.Model):
     linkedin = models.URLField(blank=True, null=True)
     instagram = models.URLField(blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
+    drive_image_url= models.URLField(blank=True, null= True)
 
 
     # @property
