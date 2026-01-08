@@ -7,10 +7,11 @@ class TeamDetailSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class MentorSerializer(serializers.ModelSerializer):
-    Mentorteam = TeamDetailSerializer(read_only=True)
     class Meta:
         model = Mentor
         fields = '__all__'
+        read_only_fields = ['supermentor']
+
 
 class MenteeSerializer(serializers.ModelSerializer):
     Menteeteam = TeamDetailSerializer(read_only=True)
@@ -21,9 +22,11 @@ class MenteeSerializer(serializers.ModelSerializer):
 #['name','email', 'username', 'password', 'branch', 'semester', 'phone_number', 'codechefID', 'codeforcesID', 'leetcodeID', 'gfgID', 'hackerrankID', 'linkedinID', 'score', 'total_q']
 class MentorGetSerializer(serializers.ModelSerializer):
     Mentorteam = TeamDetailSerializer(read_only=True)
+
     class Meta:
         model = Mentor
-        exclude = ['email', 'password','phone_number']
+        exclude = ['email', 'password', 'phone_number', 'supermentor']
+
 
 class MenteeGetSerializer(serializers.ModelSerializer):
     Menteeteam = TeamDetailSerializer(read_only=True)
@@ -39,7 +42,20 @@ class MenteeUpdateSerializer(serializers.ModelSerializer):
 class MentorUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Mentor
-        fields = ['image', 'name', 'phone_number', 'password', 'branch', 'semester', 'codechefID', 'codeforcesID', 'leetcodeID', 'gfgID', 'hackerrankID', 'linkedinID']
+        fields = [
+            'image',
+            'name',
+            'phone_number',
+            'branch',
+            'semester',
+            'codechefID',
+            'codeforcesID',
+            'leetcodeID',
+            'gfgID',
+            'hackerrankID',
+            'linkedinID',
+        ]
+
 
 class TeamSerializer(serializers.ModelSerializer):
     team_members = MenteeGetSerializer(many=True, read_only=True)
