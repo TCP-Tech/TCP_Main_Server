@@ -46,7 +46,7 @@ jobs:
 
     - name: Install server-side dependencies & restart backend
       run: |
-        ssh -o StrictHostKeyChecking=no -i tcp.pem root@142.93.212.1 << 'EOF'
+        ssh -o StrictHostKeyChecking=no -i tcp.pem root@165.22.210.222 << 'EOF'
           cd /home/TCP_Main_Server
           source venv/bin/activate || python3 -m venv venv && source venv/bin/activate
           pip install --upgrade pip
