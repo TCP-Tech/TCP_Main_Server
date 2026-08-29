@@ -21,7 +21,7 @@ jobs:
             cd /var/www/TCP_Main_Server
             
             # 1. Pull the latest code (this ignores the sqlite DB and media files, keeping them safe)
-            git pull origin main
+            git pull https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git main
             
             # 2. Activate python environment
             source venv/bin/activate
