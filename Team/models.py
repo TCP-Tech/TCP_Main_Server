@@ -43,6 +43,7 @@ class TeamMember(models.Model):
     domain = models.CharField(max_length=100, choices=domain_choices, default='PR & Marketing')
     linkedin = models.URLField(blank=True, null=True)
     instagram = models.URLField(blank=True, null=True)
+    github = models.URLField(blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
     drive_image_url= models.URLField(blank=True, null= True)
 
