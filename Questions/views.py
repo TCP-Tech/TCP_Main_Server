@@ -7,8 +7,6 @@ from rest_framework.response import Response
 from django.utils import timezone
 from clients.models import * 
 import json
-from django.db.models import Q
-
 
 
     
@@ -20,27 +18,16 @@ def QuestionRegister(request):
         level=data.get('Level')
         topicss=data.get('topic')
         topics=topicss.split(" ")
-        print("=== DEBUG INFO ===")
-        print("1. RAW DATA:", data)
-        print("2. DATA TYPES:", {k: type(v) for k, v in data.items()})
 
         
         serializer = addQuestionSerializer(data=data)
-
-        print("3. IS VALID?", serializer.is_valid())
-        print("4. ERRORS:", serializer.errors)  # ← THIS TELLS YOU EXACTLY WHY
         
 
         if serializer.is_valid():
             serializer.save() 
             mentorId=data.get('mentorId')
             mentor=Mentor.objects.get(id=mentorId)
-            scope = data.get('scope', 'TEAM')
-            if scope == 'ALL':
-                mentees = Mentee.objects.all()  
-            elif scope == 'TEAM':
-                mentees = Mentee.objects.filter(mentor_id=mentorId)
-            
+            mentees = Mentee.objects.filter(mentor_id__in=mentorId)
             for mentee in mentees:
                 mentee.total_q+=1
                 mentee.save()
@@ -50,6 +37,7 @@ def QuestionRegister(request):
                 mentor.topic_count[topic]=mentor.topic_count.get(topic,0) + 1
             mentor.total_q+=1
             mentor.save()
+            team=Team.objects.get(alloted_mentor=mentor)
             
             res_message = "Question added to DB"
             res_status = status.HTTP_200_OK
@@ -80,21 +68,20 @@ def QuestionRegister(request):
     #     )
 
 @api_view(['GET'])
-def GetQuestion(request, mentorId):
-    # Get mentor's questions OR system-wide questions (logical OR)
-    question = Question.objects.filter(
-        models.Q(mentorId=mentorId) | models.Q(scope='ALL')
-    )
-    res_data = QuestionSerializer(question, many=True, context={'request': request}).data
+def GetQuestion(request,mentorId):
+    
+    question = Question.objects.all().filter(mentorId = mentorId)
+    res_data = QuestionSerializer(question, many = True, context={'request': request}).data
  
-    if question.exists():  # Better than len()
+    if len(question):
         res_message = "Question data fetched successfully"
         res_status = status.HTTP_200_OK
     else:
-        res_message = "No questions found"
+        res_message = "Question does not exist in DB"
         res_status = status.HTTP_404_NOT_FOUND
     
     return Response({
+        
         "data": res_data,
         "message": res_message,
         "status_code": res_status
@@ -216,3 +203,4 @@ def Onsubmit(request):
         "score":score,
         "status_code": res_status
     }, status=res_status)
+
