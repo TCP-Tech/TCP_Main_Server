@@ -3,7 +3,6 @@ from django.core.validators import MaxValueValidator, MinValueValidator,MinLengt
 from django.contrib.auth.models import AbstractUser
 from django.core.serializers import serialize
 from django.contrib.auth.hashers import make_password, check_password
-
 # Create your models here.
 # Mentor model
 
@@ -46,7 +45,6 @@ class Mentor(models.Model):
     password = models.CharField(max_length=200,validators=[MinLengthValidator(8)])
     branch = models.CharField(max_length=10,choices=Branches)
     semester = models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(8)])
-    supermentor = models.BooleanField(default=False)
     phone_number = models.CharField(max_length=10,unique=True)
     image=models.URLField(null=True,blank=True,default="https://avatar.iran.liara.run/public/8")
     codechefID = models.URLField(max_length=300,null=True,blank=True)
@@ -133,3 +131,4 @@ class Team(models.Model):
         return self.team_name    
     
 
+    
