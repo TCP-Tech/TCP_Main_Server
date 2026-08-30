@@ -7,6 +7,7 @@ MEMBER_TYPE = (
         ('MNG', 'Manager'),
         ('HCO', 'Head Co-ordinator'),
         ('OCO', 'Overall Co-ordinator'),
+        ('DL', 'Domain Lead'),
         ('EXC', 'Executive'),
     )
 
@@ -33,6 +34,10 @@ class TeamMember(models.Model):
         ['Documentation']*2,
         ['Design']*2,
         ['Video Editing']*2,
+        ['Project']*2,
+        ['Skills & Mentorship']*2,
+        ['Social Media']*2,
+        [' ']*2,
     ]
 
     name = models.CharField(max_length=100)
